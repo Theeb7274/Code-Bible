@@ -1,4 +1,4 @@
-**# Description:**
+** Description:**
   My scripts for Powershell, BASH, BAT & Python, future languages will be added if I start to use them more.
   This is primarily powershell for now.
 
