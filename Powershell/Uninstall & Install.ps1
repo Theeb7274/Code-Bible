@@ -1,7 +1,10 @@
-# --- Version 1.0 CM ---
+# Script which searches for an applications display name, uninstalls said application and installs a new one
+# Note that the install always runs regardless of what uninstalling returns
+# This was made to only unistall the old version of an application, and install the new one, allowing it to be deployed site wide
+# The script is wrapped in a large function, which is called at line 204
 
-# Arguments for function
-$SoftwareName = "" # Searches for the Display name key, not always the same as the application name
+# Arguments
+$SoftwareName = "" # Searches for the Display name key, not always the same as the application name (but usually is)
 $OldVersion = "" # If found this version will be uninstalled
 $MSIPath = "" # Path to the installer 
 $InstallLog = "" # Path to log install progress
@@ -45,7 +48,8 @@ function Script {
         'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall',
         'HKLM:\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall'
     )
-
+    
+    # Set flags
     $foundApp = $null
     $productCodeToUninstall = $null
 
@@ -81,7 +85,7 @@ function Script {
                     }
                      else {
                         Write-Warning "  Could not reliably determine MSI Product Code for uninstall from key name or UninstallString."
-                        # You might need more specific logic here based on the app if the above fails
+                        # You might need more specific logic here based on the app if the above fails, adjust accordingly
                      }
 
                     $foundApp = $key # Store the found key object
@@ -114,7 +118,6 @@ function Script {
         } else {
             $UninstallLogFile = "" # Disable logging if directory creation failed
         }
-
 
         Write-Verbose "Running: msiexec.exe $($msiArgsUninstall -join ' ')"
         try {
