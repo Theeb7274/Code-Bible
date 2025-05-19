@@ -1,3 +1,6 @@
+# A functioned to convert an array of integers into strings, usefule when defining a large range of numbers using (10..1000) as this defaults to integers
+# This then allows you to append ASCII characters to all entries in the array, such as a wildcard
+
 function ArrayConversion{
     $IntArray= (..)
 
@@ -7,7 +10,7 @@ function ArrayConversion{
     }
 
 	#Optionally append a character to each entry in the array
-    #$newYears = $convertedYears | ForEach-Object {
+    $AmmendedArray = $IntArray | ForEach-Object {
         $_ + "*" # $_ represents the current item in the pipeline
     }
 }
