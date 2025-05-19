@@ -8,28 +8,31 @@
 
 .NOTES
     Author: CM V1.2
-    V1.1 - Added a check for the contents of $csvPath
-    V1.2 - Modified $oofState to "Enabled"
     Date:   2025-05-15
     Requires: ExchangeOnlineManagement module.
     Ensure the CSV file path and user identity column name are correct.
     Modify the OOF settings variables as needed.
+
+.CHANGELOG
+    V1.1 - Added a check for the contents of $csvPath, which is outputted in the shell which called the script
+    V1.2 - Modified varibles for testing
+    V1.3 - General cleanup of notes & variables from testing
 #>
 
 #Requires -Modules ExchangeOnlineManagement
 
 # --- Configuration ---
-$csvPath = "C:\Users\Admin\Desktop\Shtuff\BHCSOOF.csv" # IMPORTANT: Update this path
-$identityColumnName = "UserPrincipalName"   # Column header in CSV for user identities
+$csvPath = "" # Local csv of users to modify
+$identityColumnName = "UserPrincipalName"   # Column header in CSV for user identities, ID can instead be used
 
 # --- Check Contents of CSV ---
 $usersToProcess = Import-Csv -Path $csvPath
  if ($null -eq $usersToProcess -or $usersToProcess.Count -eq 0) {
      Write-Warning "No users found in the CSV file or the file is empty."
-     exit 1 # Used for debugging
+     exit 1 # Came for the debugging, stayed because useful
  } else {
      Write-Host "First few rows from CSV:"
-     $usersToProcess | Select-Object -First 5 | Format-Table -AutoSize # Display first 5 rows
+     $usersToProcess | Select-Object -First 5 | Format-Table -AutoSize # Display first 5 rows, you can extend this if you wish
      Write-Host "Properties (column headers) found in the CSV:"
      $usersToProcess[0] | Get-Member -MemberType NoteProperty | Select-Object Name
  }
@@ -39,7 +42,7 @@ $usersToProcess = Import-Csv -Path $csvPath
 # "Disabled" - Turns OOF off.
 # "Enabled"  - Turns OOF on indefinitely (until manually disabled).
 # "Scheduled"- Turns OOF on for a specific period.
-$oofState = "Enabled" # Or "Enabled" or "Disabled"
+$oofState = "" 
 
 # If $oofState is "Scheduled", set StartTime and EndTime
 # Ensure date format is understood by Get-Date or use specific culture parsing.
@@ -49,29 +52,22 @@ $oofEndTime   = (Get-Date "2024-01-05 09:00:00") # Example: January 5, 2024, 9 A
 
 # --- OOF Messages (HTML is allowed) ---
 $internalMessage = @"
-"@
+"@ # Leaving this blank will allow only external replies, despite the GUI preventing this
 
 $externalMessage = @"
-<p>Thank you for contacting Brighton Hill Community School.</p>
-<p>This is an automated response to acknowledge safe receipt of your email.</p>
-<p>Except in extenuating circumstances, we endeavor to respond to emails within 3 school working days of receipt. This is because the matter may need consideration and because colleagues spend a high proportion of their working day teaching and supporting students.</p>
-<p>If you don't receive a reply within 3 working days, it may be that a colleague is absent or urgent matters have prevented them from replying within the usual time frame; please re-send the email to the intended recipient and to the admin@bhcs.sfet.org.uk</p>
-<p>email address. Please also check your 'junk mail' folder as some email accounts have been found to automatically divert school emails to this folder.</p>
-<p>If your email relates to a safeguarding matter, please don’t hesitate to forward your email to safeguarding@bhcs.sfet.org.uk and we will deal with the concern as a matter of urgent priority.</p>
-<p>If you are contacting us to raise a safeguarding concern and it is out of school hours or term time, please contact Hampshire County Council's safeguarding team on: 0300 555 1384 or the police on 101.</p>
-<p>If a child is in immediate danger, please contact the police using 999.</p>
-"@
+<p>Example Message.</p>
+"@ # <p> begins the paragraph, .</p> ends it
 
 # --- External Audience ---
 # Acceptable options here are:
 # "None"   - External auto-reply is not sent.
 # "Known"  - External auto-reply is sent only to Senders in the Mailbox user's Contacts folder.
 # "All"    - External auto-reply is sent to all external Senders.
-$externalAudience = "All"
+$externalAudience = ""
 
 # --- Script Execution ---
 
-# Function to connect to Exchange Online
+# Function to connect to Exchange Online, I recommend using a regular Powershell instance, rather than ISE as the GUI to authenticate has issues in ISE
 Function Connect-ToExchange {
     Write-Host "Attempting to connect to Exchange Online..."
     try {
@@ -91,7 +87,7 @@ Function Connect-ToExchange {
     }
 }
 
-# Function to disconnect from Exchange Online
+# Function to disconnect from Exchange Online, this is called regardless of where the script terminates to ensure disconnection
 Function Disconnect-FromExchange {
     Write-Host "Disconnecting from Exchange Online..."
     $session = Get-PSSession | Where-Object { $_.ConfigurationName -eq 'Microsoft.Exchange' }
@@ -145,7 +141,7 @@ try {
                 $params.Add("EndTime", $oofEndTime)
             }
 
-            # If disabling, we can clear the messages, though it's not strictly necessary
+            # Optinal removal of message when disabling, this isn't required and can be changed if desired
             if ($oofState -eq "Disabled") {
                 $params.InternalMessage = ""
                 $params.ExternalMessage = ""
@@ -171,6 +167,6 @@ catch {
     Write-Error "An unexpected error occurred: $($_.Exception.Message)"
 }
 finally {
-    # 4. Disconnect from Exchange Online
+    # 4. Disconnect from Exchange Online, due to finally being used, this is always ran regardless of how/when the script terminated 
     Disconnect-FromExchange
 }
