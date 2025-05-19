@@ -65,9 +65,11 @@
 
 .NOTES
     By Cameron Meylan
-    Version: 1.2
-    Requires: delprof2.exe from Helge Klein (https://helgeklein.com/free-tools/delprof2-user-profile-deletion-tool/)
-              Administrator privileges.
+    Version: 1.3
+    As this is a wrapper script, we are entirely reliant on delprof2 to do the heavy lifting
+    This gets around common security issues when removing profiles through rmdir, and cleanly removes the profile
+    For automating, call this from another ps1, with the defined paramaters alongside
+    Makes sure to use the & call operator before the filename so powershell handles it as a command
 #>
 [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = 'High')]
 param(
