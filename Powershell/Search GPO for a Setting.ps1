@@ -1,4 +1,6 @@
-﻿# Get the string we want to search for 
+# Searches for the GPO Specified when prompted, edit the scope as required
+ 
+# Get the string we want to search for 
 $string = Read-Host -Prompt "GPO Setting you want to search for?" 
  
 # Set the domain to search for GPOs 
