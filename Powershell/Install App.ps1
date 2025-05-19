@@ -1,9 +1,9 @@
 ﻿# Variables
-$LocalDestinationPath = "C:\EDUIT" # Installation folder on endpoints
-$ExecutablePath = "\\sfet-bhcs-mgt01\software$\TechSoft2DDesign v2.17" # Network location of app to install
-$LogFilePath = "C:\EDUIT\2DD_script_log.txt" # Specify the log file path on endpoints
+$LocalDestinationPath = "" # Installation folder on endpoints
+$ExecutablePath = "" # Network location of app to install
+$LogFilePath = "" # Specify the log file path on endpoints
 
-# Function to create the local EDUIT destination directory if it doesn't exist
+# Function to create $LocalDestinationPath directory if it doesn't exist
 function Create-Path {
     if (-not (Test-Path -Path $LocalDestinationPath)) {
         try {
@@ -46,27 +46,10 @@ function CheckRegKeyExists {
         return $false
     }                        
 }
-
-function Remove-FolderRecursive {
-    param ([string]$RecursiveFolderPath)
-
-    #Remove-FolderRecursive -RecursiveFolderPath "C:\EDUIT\ExtractedFiles"
-
-    try {
-        if (Test-Path -Path $RecursiveFolderPath -PathType Container) {
-            Remove-Item -Path $RecursiveFolderPath -Recurse -Force -ErrorAction Stop
-            Write-Log "Folder '$RecursiveFolderPath' and its contents deleted successfully."
-        } else {
-            Write-Log "Folder '$RecursiveFolderPath' does not exist."
-        }
-    } catch {
-        Write-Error "Error deleting folder '$FolderPath': $($_.Exception.Message)"
-    }
-}
-
+# Optional function for cleaning up installation directory ($LocalDestinationPath)
 function Remove-File {
     param ([String]$File)
-    #Remove-File -FileToRemove "C:\EDUIT"
+    #Remove-File -FileToRemove "$LocalDestinationPath"
 
     # Delete local zip file
     try {
