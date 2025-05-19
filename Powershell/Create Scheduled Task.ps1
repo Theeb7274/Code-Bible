@@ -1,8 +1,11 @@
-﻿$taskName = "" #Name of the created task
+# Creates a scheduled task 
+ 
+$taskName = "" # Name of the created task
 $user = "" # Context to run the script as, NT AUTHORITY\SYSTEM Recommended
 $scriptLocation = "" # Full path of the script to execute
 $tracker == "0"
 
+# Create the task with the specified parameters
 function CreateTask {
     While (-Not($tracker == "0")) {
         try{
@@ -20,10 +23,8 @@ function CreateTask {
         }
     }
 }
-    
 
-
-
+# Test if the task was succesuflly created, note that this only checks for the name, not it's contents
 function TestTask {
     try{
         $taskExists = Get-ScheduledTask | Where-Object {$_.TaskName -like $taskName }
@@ -38,7 +39,7 @@ function TestTask {
     }
 }
         
-
+# Call functions
 CreateTask
 Start-sleep
 TestTask
