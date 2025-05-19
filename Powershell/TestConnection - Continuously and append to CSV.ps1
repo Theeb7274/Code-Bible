@@ -2,8 +2,8 @@
 ## This will help in diagnosing if issues users are having are Internet issues, or Local network issues 
 ##e.g. If the ping to google.com fails, but to their default gateway does not, suggests internet
 
-$csvPath = "C:\EDUIT\TestConnectionOutput2.csv" # Location to save the csv
-$hosts = "8.8.8.8", "google.com", "bbc.co.uk", "10.207.136.1" # Add or remove hostnames and or IPs as needed
+$csvPath = "" # Location to save the csv
+$hosts = "8.8.8.8", "google.com", "bbc.co.uk", "10.207.136.1" # Hostnames or IPv4 adresses are valid
 
 ##################################################################################################################################
 
@@ -27,5 +27,6 @@ while ($true) { # Run Forver #
 
     Start-Sleep -Seconds 1  # Wait for a second before pinging again
 }
-## Written by Shunter
+## Written by Shunter 
 ## V1.0
+## V1.1 > Cleaned up variables 
