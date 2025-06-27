@@ -1,7 +1,9 @@
 ﻿<#
- =================================================================================
+ Synposis:
  PowerShell Script to Fix OneDrive "Site User ID Mismatch"
- This script automatically determines the user's OneDrive URL from their UPN.
+ 
+ Often occurs on a few unlucky users after a tenancy migration.
+ The standard format for OneDrive is: https://(SITE ID)-my.sharepoint.com/personal/(UPN) however the Site ID can be defined incorrectly as the old site ID. This    script compares the Site ID found of the specified user and if it doesn't match the one found for the tenant, it replaces it. Currently untested.
  =================================================================================
 
  --- Step 1: Set the Required Variables ---
