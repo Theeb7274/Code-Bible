@@ -1,0 +1,5 @@
+# nct6683 is the module in this conf file
+# Do not load the nct6683 module on boot.
+blacklist nct6683
+# uncomment the line below if blacklisting is not sufficient
+# install nct6683 /bin/true
