@@ -3,4 +3,4 @@
   This is primarily powershell for now.
 
 **Disclaimer:**
-  Use these scripts at your own risk, if you don't understand the full logic of a script, you may get unexpected results.
+  Use these at your own risk, if you don't understand the full logic of a script, you may get unexpected results.
