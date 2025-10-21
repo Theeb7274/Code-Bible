@@ -9,10 +9,11 @@ function ArrayConversion{
         $_.ToString()  
     }
 
-	#Optionally append a character to each entry in the array
+	# Optionally append a character to each entry in the array
     $AmmendedArray = $IntArray | ForEach-Object {
         $_ + "*" # $_ represents the current item in the pipeline
     }
 }
+
 
 
