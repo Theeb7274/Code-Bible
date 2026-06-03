@@ -1,7 +1,8 @@
 psql -t -P format=unaligned -c 'SHOW hba_file;'
 /etc/postgresql/10/main/pg_hba.conf
 # Database administrative login by Unix domain socket
-local   all             postgres                                peer
+# TYPE    DATABASE    USER        ADDRESS         METHOD  OPTIONS
+local   all             postgres  peer
 host    all             all             all                     reject
 host    all             all             all                     reject
 
