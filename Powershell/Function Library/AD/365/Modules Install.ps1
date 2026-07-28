@@ -1,5 +1,4 @@
 # For each module in the array $modules, it will search for the module, and install it if it's not installed
-# V1.1 - Wrapped in a function for portability
 
 # Function: Check for required modules, install them if missing
 function Install-Modules {
