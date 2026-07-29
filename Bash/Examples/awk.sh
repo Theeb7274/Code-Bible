@@ -1,5 +1,5 @@
 # A scenario where the task required basic math operations in bash.
-# Due to multiple commandline arguemnts and the requiremnt that variables persist beyond the line ran, I created a script to run.
+# Due to multiple commandline arguemnts and the requirement that variables persist beyond the line ran, I created a script to run.
 touch script.sh
 
 # This won't be able to run unless we provide executable permissions
