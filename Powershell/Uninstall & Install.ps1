@@ -1,8 +1,9 @@
-# Script which searches for an applications display name, uninstalls said application and installs a new one
-# Note that the install always runs regardless of what uninstalling returns
-# This was made to only unistall the old version of an application, and install the new one, allowing it to be deployed site wide
-# The script is wrapped in a large function, which is called at line 204
-
+<#
+ Script which searches for an applications display name, uninstalls said application and installs a new one
+ Note that the install always runs regardless of what uninstalling returns
+ This was made to only unistall the old version of an application, and install the new one, allowing it to be deployed site wide
+ The script is wrapped in a large function, which is called at line 204
+#>
 # Arguments
 $SoftwareName = "" # Searches for the Display name key, not always the same as the application name (but usually is)
 $OldVersion = "" # If found this version will be uninstalled

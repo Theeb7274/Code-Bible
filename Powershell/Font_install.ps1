@@ -2,7 +2,7 @@
 
 $ErrorActionPreference = 'Stop'
 
-$InstallDir = Join-Path 'C:\EDUIT\'
+$InstallDir = 'C:\EDUIT\Scripts'
 $WorkerPath = Join-Path $InstallDir 'FontInstall.ps1'
 $TaskName   = 'RunScriptAtLogon'
 
@@ -128,7 +128,7 @@ function Install-Worker {
         [Parameter(Mandatory)][string]$Content
     )
 
-    New-Item -Path $Directory -ItemType Directory -Force | Out-Null
+    # New-Item -Path $Directory -ItemType Directory -Force | Out-Null
 
     $current = $null
     if (Test-Path -Path $Path -PathType Leaf) {
